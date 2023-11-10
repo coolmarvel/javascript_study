@@ -47,26 +47,26 @@
 
 // Object.create() // 메서드는 지정된 프로토타입 객체 및 속성(property)을 갖는 새 객체를 만듭니다.
 
-function Person(name, email, birthday) {
-  let person = Object.create(personPrototype);
-  person.name = name;
-  person.email = email;
-  person.birthday = new Date(birthday);
+// function Person(name, email, birthday) {
+//   let person = Object.create(personPrototype);
+//   person.name = name;
+//   person.email = email;
+//   person.birthday = new Date(birthday);
 
-  return person;
-}
+//   return person;
+// }
 
-const personPrototype = {
-  calculateAge() {
-    const diff = Date.now() - this.birthday.getTime();
-    const ageDate = new Date(diff);
+// const personPrototype = {
+//   calculateAge() {
+//     const diff = Date.now() - this.birthday.getTime();
+//     const ageDate = new Date(diff);
 
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-  },
-};
+//     return Math.abs(ageDate.getUTCFullYear() - 1970);
+//   },
+// };
 
-const marvel = new Person("marvel", "marvel97@naver.com", "11/25/1997");
-const windfall = new Person("windfall", "abc@def.com", "11/12/1982");
+// const marvel = new Person("marvel", "marvel97@naver.com", "11/25/1997");
+// const windfall = new Person("windfall", "abc@def.com", "11/12/1982");
 
-console.log(marvel);
-console.log(windfall);
+// console.log(marvel);
+// console.log(windfall);
