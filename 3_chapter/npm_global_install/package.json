@@ -1,0 +1,14 @@
+{
+  "name": "npm_global_install",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "scripts": {
+    "start": "node request.js",
+    "dev": "nodemon requeset.js",
+    "test": "echo \"Error: no test sepicified\" && exit 1"
+  }
+}
