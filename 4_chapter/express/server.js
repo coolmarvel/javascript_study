@@ -12,6 +12,17 @@ const users = [
 // App
 const app = express(); // 새로운 Express App 생성
 
+// Middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+  console.log(`${req.method} ${req.url}`);
+  next();
+
+  const diffTime = Date.now() - start;
+  console.log(`${req.method} ${req.url} ${diffTime}ms`);
+  // 메인 task를 처리한 뒤, next() 뒷 부분을 호출합니다.
+});
+
 app.get("/", (req, res) => {
   res.send({ a: "a" });
 });
