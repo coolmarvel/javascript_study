@@ -31,6 +31,10 @@ app.get("/users/:userId", (req, res) => {
   }
 });
 
+app.get("/some_html", (req, res) => {
+  res.send("<p>some html</p>");
+});
+
 app.listen(PORT, HOST); // 해당 포트와 호스트에서 HTTP 서버를 시작
 console.log(`Running on http://${HOST}:${PORT}`);
 
