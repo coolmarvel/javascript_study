@@ -1,4 +1,5 @@
 const express = require("express"); // Express 모듈 불러오기
+const path = require("path");
 
 // Constants
 const PORT = 8080; // Express 서버를 위한 포트 설정
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+app.use("/static", express.static(path.join(__dirname, "public")));
 
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
