@@ -1,5 +1,10 @@
+const path = require("path");
+
 function getPost(req, res) {
-  res.send("<div><h1>Post Title</h1><p>This is a post</p></div>");
+  // path.join은 여러 세그먼트를 하나의 경로로 결합
+  res.sendFile(path.join(__dirname, "..", "public", "images", "profile.png"));
+
+  // __dirname은 현재 실행하는 파일의 절대 경로
 }
 
 module.exports = { getPost };
