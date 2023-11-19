@@ -25,45 +25,13 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-// Get Router
-app.get("/", (req, res) => {
-  res.send({ a: "a" });
-});
+const usersController = require("./controllers/users.controller");
+const postsController = require("./controllers/posts.controller");
 
-app.get("/users", (req, res) => {
-  res.json(users);
-});
-
-app.get("/users/:userId", (req, res) => {
-  const userId = Number(req.params.userId);
-  const user = users[userId];
-
-  if (user) {
-    res.status(200).json(user);
-  } else {
-    res.status(404).json({ error: "No User Found" });
-  }
-});
-
-app.get("/some_html", (req, res) => {
-  res.send("<p>some html</p>");
-});
-
-// Post Router
-app.post("/products", (req, res) => {
-  console.log("req.body : ", req.body);
-});
-
-app.post("/users", (req, res) => {
-  if (!req.body.name) {
-    return res.status(400).json({ error: "Missing user name" });
-  }
-  const newUser = { name: req.body.name, id: users.length };
-
-  users.push(newUser);
-
-  res.json(newUser);
-});
+app.get("/users", usersController.getUsers);
+app.get("/users/:userId", usersController.getUser);
+app.post("/users", usersController.postUser);
+app.post("/posts", postsController.getPost);
 
 app.listen(PORT, HOST); // 해당 포트와 호스트에서 HTTP 서버를 시작
 console.log(`Running on http://${HOST}:${PORT}`);
