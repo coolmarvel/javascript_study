@@ -4,10 +4,8 @@ const express = require("express"); // Express 모듈 불러오기
 const PORT = 8080; // Express 서버를 위한 포트 설정
 const HOST = "0.0.0.0"; // 호스트 지정
 
-const users = [
-  { id: 0, name: "Jack" },
-  { id: 1, name: "Jennifer" },
-];
+const usersRouter = require("./routes/users.router");
+const postsRouter = require("./routes/posts.router");
 
 // App
 const app = express(); // 새로운 Express App 생성
@@ -19,19 +17,14 @@ app.use((req, res, next) => {
   next();
 
   const diffTime = Date.now() - start;
-  console.log(`${req.method} ${req.url} ${diffTime}ms`);
+  console.log(`${req.method} ${req.baseUrl}${req.url} ${diffTime}ms`);
   // 메인 task를 처리한 뒤, next() 뒷 부분을 호출합니다.
 });
 
 app.use(express.json());
 
-const usersController = require("./controllers/users.controller");
-const postsController = require("./controllers/posts.controller");
-
-app.get("/users", usersController.getUsers);
-app.get("/users/:userId", usersController.getUser);
-app.post("/users", usersController.postUser);
-app.post("/posts", postsController.getPost);
+app.use("/users", usersRouter);
+app.use("/posts", postsRouter);
 
 app.listen(PORT, HOST); // 해당 포트와 호스트에서 HTTP 서버를 시작
 console.log(`Running on http://${HOST}:${PORT}`);
