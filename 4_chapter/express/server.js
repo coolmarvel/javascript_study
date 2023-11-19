@@ -23,6 +23,9 @@ app.use((req, res, next) => {
   // 메인 task를 처리한 뒤, next() 뒷 부분을 호출합니다.
 });
 
+app.use(express.json());
+
+// Get Router
 app.get("/", (req, res) => {
   res.send({ a: "a" });
 });
@@ -44,6 +47,11 @@ app.get("/users/:userId", (req, res) => {
 
 app.get("/some_html", (req, res) => {
   res.send("<p>some html</p>");
+});
+
+// Post Router
+app.post("/products", (req, res) => {
+  console.log("req.body : ", req.body);
 });
 
 app.listen(PORT, HOST); // 해당 포트와 호스트에서 HTTP 서버를 시작
