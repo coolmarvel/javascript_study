@@ -11,6 +11,11 @@ const postsRouter = require("./routes/posts.router");
 // App
 const app = express(); // 새로운 Express App 생성
 
+// 특정 엔진을 템플릿 엔진으로 사용하기 위한 설정
+app.set("view engine", "hbs");
+// view 파일들이 모여있는 폴더를 명시
+app.set("views", path.join(__dirname, "views"));
+
 // Middleware
 app.use((req, res, next) => {
   const start = Date.now();
@@ -23,7 +28,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-app.use("/static", express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
