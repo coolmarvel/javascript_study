@@ -16,8 +16,32 @@
 // console.log(typeof (number + undefined));
 // console.log(typeof pi);
 
-const a = 0.1;
-const b = 0.2;
+// const a = 0.1;
+// const b = 0.2;
 
-console.log(a + b); // 0.30000000000000004 Number
-console.log(Number(a + b).toFixed(1)); // 0.3 String
+// console.log(a + b); // 0.30000000000000004 Number
+// console.log(Number(a + b).toFixed(1)); // 0.3 String
+
+// Boolean 논리 데이터
+const a = true;
+const b = false;
+
+if (a) {
+  console.log("Hello");
+}
+
+if (b) {
+  console.log("World");
+}
+
+// NULL
+let age = null;
+console.log(age);
+setTimeout(() => {
+  age = 27;
+  console.log(age);
+}, 1000);
+
+// undefined
+let home = undefined;
+console.log(home); // undefined
