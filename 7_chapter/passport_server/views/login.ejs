@@ -1,0 +1,16 @@
+<section class="prompt">
+  <h1>Login</h1>
+  <form action="/login" method="post">
+    <section>
+      <label for="email">Email</label>
+      <input type="text" id="email" autocomplete="email" required autofocus />
+    </section>
+    <section>
+      <label for="current-password">Password</label>
+      <input type="password" id="current-password" name="password" autocomplete="current-password" required />
+    </section>
+    <input type="hidden" />
+    <button type="submit">Login</button>
+  </form>
+  <p class="help">Don't have an account? <a href="/signup">Signup</a></p>
+</section>
