@@ -13,7 +13,7 @@ const port = 3000;
 const { MONGO_USERNAME, MONGO_PASSWORD, COOKIE_SESSION_KEY } = process.env;
 
 app.use(cookieSession({ name: "cookie-passport", keys: [COOKIE_SESSION_KEY] }));
-app.use("/static", express.static(path.join(__dirname, "public")));
+app.use("/static", express.static(path.join(__dirname, "../public")));
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -78,6 +78,22 @@ app.post("/signup", async (req, res, next) => {
   } catch (error) {
     console.log(error);
   }
+});
+
+const { checkAuthenticated, checkNotAuthenticated } = require("./middleware/auth");
+app.get("/", checkAuthenticated, (req, res, next) => {
+  res.render("index");
+});
+
+app.get("/login", checkNotAuthenticated, (req, res, next) => {
+  res.render("login");
+});
+
+app.post("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+    res.redirect("/login");
+  });
 });
 
 mongoose
