@@ -8,7 +8,8 @@ require("dotenv").config();
 
 const serverConfig = config.get("server");
 
-const User = require("./models/users.model");
+const mainRouter = require("./routes/main.router");
+const usersRouter = require("./routes/users.router");
 
 const app = express();
 const port = serverConfig.port;
@@ -40,72 +41,12 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/", mainRouter);
+app.use("/auth", usersRouter);
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
-app.get("/", (req, res, next) => {
-  res.render("index");
-});
-
-app.get("/login", (req, res, next) => {
-  res.render("login");
-});
-
-app.post("/login", (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
-    if (err) return next(err);
-    if (!user) {
-      console.log("no user found");
-      return res.send({ msg: info });
-    }
-
-    req.logIn(user, (err) => {
-      if (err) return next(err);
-      else res.redirect("/");
-    });
-  })(req, res, next);
-});
-
-app.get("/signup", (req, res, next) => {
-  res.render("signup");
-});
-
-app.post("/signup", async (req, res, next) => {
-  const user = new User(req.body);
-  console.log(req.body); // email password
-
-  try {
-    await user.save(); // database save
-    return res.status(200).send({ success: true });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-const { checkAuthenticated, checkNotAuthenticated } = require("./middleware/auth");
-app.get("/", checkAuthenticated, (req, res, next) => {
-  res.render("index");
-});
-
-app.get("/login", checkNotAuthenticated, (req, res, next) => {
-  res.render("login");
-});
-
-app.get(
-  "/auth/google",
-  passport.authenticate("google", {
-    successReturnToOrRedirect: "/",
-    failureRefirect: "/login",
-  })
-);
-
-app.post("/logout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) return next(err);
-    res.redirect("/login");
-  });
-});
 
 mongoose
   .connect(`mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@test.vi6echp.mongodb.net/`)
