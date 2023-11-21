@@ -2,17 +2,20 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const express = require("express");
+const config = require("config");
 const path = require("path");
 require("dotenv").config();
+
+const serverConfig = config.get("server");
 
 const User = require("./models/users.model");
 
 const app = express();
-const port = 3000;
+const port = serverConfig.port;
 
 const { MONGO_USERNAME, MONGO_PASSWORD, COOKIE_SESSION_KEY } = process.env;
 
-app.use(cookieSession({ name: "cookie-passport", keys: [COOKIE_SESSION_KEY] }));
+app.use(cookieSession({ name: "cookie-session", keys: [COOKIE_SESSION_KEY] }));
 app.use("/static", express.static(path.join(__dirname, "../public")));
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
