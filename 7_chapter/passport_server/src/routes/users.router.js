@@ -2,6 +2,7 @@ const router = require("express").Router();
 const passport = require("passport");
 
 const User = require("../models/users.model");
+const sendMail = require("../mail/mail_template");
 
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
@@ -21,6 +22,7 @@ router.post("/signup", async (req, res) => {
   try {
     await user.save();
 
+    sendMail("to-email", "to-name", "welcome");
     res.redirect("/login");
   } catch (error) {
     console.error(error);
