@@ -3,6 +3,7 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const express = require("express");
 const config = require("config");
+const helmet = require("helmet");
 const path = require("path");
 require("dotenv").config();
 
@@ -23,6 +24,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 require("./config/passport");
 app.use(express.json());
+app.use(helmet());
 
 // register regenerate & save after the cookie-session middleware initialization
 app.use((req, res, next) => {
