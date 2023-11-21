@@ -46,4 +46,13 @@ router.get(
   })
 );
 
+router.get("/kakao", passport.authenticate("kakao"));
+router.get(
+  "/kakao/callback",
+  passport.authenticate("kakao", {
+    successReturnToOrRedirect: "/",
+    failureRedirect: "/login",
+  })
+);
+
 module.exports = router;

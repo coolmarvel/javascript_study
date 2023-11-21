@@ -59,28 +59,28 @@ const googleStrategyConfig = new GoogleStrategy(
 passport.use("google", googleStrategyConfig);
 
 // kakao strategy
-// const { KAKAO_CLIENT_ID } = process.env;
-// const kakaoStrategyConfig = new KakaoStrategy(
-//   {
-//     clientID: KAKAO_CLIENT_ID,
-//     callbackURL: "/auth/kakao/callback",
-//   },
-//   (accessToken, refreshToken, profile, done) => {
-//     User.findOne({ kakoId: profile.id }, (err, existingUser) => {
-//       if (err) return done(err);
+const { KAKAO_API_KEY } = process.env;
+const kakaoStrategyConfig = new KakaoStrategy(
+  {
+    clientID: KAKAO_API_KEY,
+    callbackURL: "/auth/kakao/callback",
+  },
+  (accessToken, refreshToken, profile, done) => {
+    User.findOne({ kakoId: profile.id }, (err, existingUser) => {
+      if (err) return done(err);
 
-//       if (existingUser) return done(null, existingUser);
-//       else {
-//         const user = new User();
-//         user.kakaoId = profile.id;
-//         user.email = profile._json.kako_account.email;
-//         user.save((err) => {
-//           if (err) return done(err);
-//           done(null, user);
-//         });
-//       }
-//     });
-//   }
-// );
+      if (existingUser) return done(null, existingUser);
+      else {
+        const user = new User();
+        user.kakaoId = profile.id;
+        user.email = profile._json.kako_account.email;
+        user.save((err) => {
+          if (err) return done(err);
+          done(null, user);
+        });
+      }
+    });
+  }
+);
 
-// passport.use("kakao", kakaoStrategyConfig);
+passport.use("kakao", kakaoStrategyConfig);
