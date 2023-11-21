@@ -89,6 +89,14 @@ app.get("/login", checkNotAuthenticated, (req, res, next) => {
   res.render("login");
 });
 
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    successReturnToOrRedirect: "/",
+    failureRefirect: "/login",
+  })
+);
+
 app.post("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err);
