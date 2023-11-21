@@ -43,13 +43,15 @@ const googleStrategyConfig = new GoogleStrategy(
   (accessToken, refreshToken, profile, done) => {
     User.findOne({ googleId: profile.id }, (err, existingUser) => {
       if (err) return done(err);
+
+      if (existingUser) return done(null, existingUser);
       else {
         const user = new User();
         user.email = profile.emails[0].value;
         user.googleId = profile.id;
         user.save((err) => {
           if (err) return done(err);
-          done(null, user);
+          else done(null, user);
         });
       }
     });

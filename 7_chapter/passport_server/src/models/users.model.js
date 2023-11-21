@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema({
   // 일반 로그인
-  email: { type: String, trim: true, unique: true },
+  email: { type: String, unique: true },
   password: { type: String, minLength: 5 },
   // 구글 로그인
   googleId: { type: String, unique: true, sparse: true },
@@ -28,7 +28,7 @@ userSchema.pre("save", (next) => {
   } else next();
 });
 
-userSchema.methods.comparePassword = (plainPassword, cb) => {
+userSchema.methods.comparePassword = function (plainPassword, cb) {
   // bcrypt compare
   // plain password => client, this.password => database에 있는 password
   bcrypt.compare(plainPassword, this.password, (err, isMatch) => {

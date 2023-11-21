@@ -29,15 +29,11 @@ app.use(helmet());
 // register regenerate & save after the cookie-session middleware initialization
 app.use((req, res, next) => {
   if (req.session && !req.session.regenerate) {
-    req.session.regenerate = (cb) => {
-      cb();
-    };
+    req.session.regenerate = (cb) => cb();
   }
 
   if (req.session && !req.session.save) {
-    req.session.save = (cb) => {
-      cb();
-    };
+    req.session.save = (cb) => cb();
   }
 
   next();
