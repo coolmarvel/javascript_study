@@ -4,4 +4,4 @@ const getPost = (req, res) => {
   res.render("posts", { templateName: "post" });
 };
 
-module.exports = getPost;
+module.exports = { getPost };

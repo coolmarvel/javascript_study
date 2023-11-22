@@ -21,4 +21,4 @@ const postUser = (req, res) => {
   res.send(newUser);
 };
 
-model.exports = { getUser, getUsers, postUser };
+module.exports = { getUser, getUsers, postUser };
