@@ -9,23 +9,11 @@ const path = require("path");
 
 const loadedTypes = loadFilesSync("**/*", { extensions: ["graphql"] });
 
+const loadedResolvers = loadFilesSync(path.join(__dirname, "**/*.resolver.js"));
+
 const schema = makeExecutableSchema({
   typeDefs: loadedTypes,
-  resolvers: {
-    Query: {
-      posts: (parent, args, context, info) => {
-        console.log("parent", parent);
-        console.log("args", args);
-        console.log("context", context);
-        console.log("info", info);
-
-        return parent.posts;
-      },
-      comments: (parent) => {
-        return parent.comments;
-      },
-    },
-  },
+  resolvers: loadedResolvers,
 });
 
 const root = {
@@ -36,14 +24,7 @@ const root = {
 const app = express();
 const port = 3000;
 
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema: schema,
-    rootValue: root,
-    graphiql: true, // true
-  })
-);
+app.use("/graphql", graphqlHTTP({ schema: schema, graphiql: true }));
 
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
