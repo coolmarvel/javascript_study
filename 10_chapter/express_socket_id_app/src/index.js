@@ -9,6 +9,9 @@ const { Server } = require("socket.io");
 
 const io = new Server(server);
 
+const { generateMessage } = require("./utils/messages");
+const { addUser, getUsersInRoom, getUser, removeUser } = require("./utils/users");
+
 io.on("connection", (socket) => {
   console.log("socket", socket.id);
 
