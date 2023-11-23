@@ -8,16 +8,14 @@
   </head>
   <body>
     <div class="chat">
-      <div id="side" class="chat__sidebar">
-        <div class="chat__main">
-          <div id="messages" class="chat__messages"></div>
-
-          <div class="form__container">
-            <form id="message-form">
-              <input type="message" placeholder="메시지를 입력하세요." />
-              <button>전송</button>
-            </form>
-          </div>
+      <div id="sidebar" class="chat__sidebar"></div>
+      <div class="chat__main">
+        <div id="messages" class="chat__messages"></div>
+        <div class="form__container">
+          <form id="message-form">
+            <input name="message" placeholder="메시지를 입력하세요." required />
+            <button>전송</button>
+          </form>
         </div>
       </div>
     </div>
@@ -35,9 +33,10 @@
     <script id="message-template" type="text/html">
       <div class="message">
         <p>
-          <span class="message__name"> {{username}} </span>
-          <span class="message__meta"> {{createdAt}} </span>
+          <span class="message__name">{{username}}</span>
+          <span class="message__meta">{{createdAt}}</span>
         </p>
+        <p>{{message}}</p>
       </div>
     </script>
 
