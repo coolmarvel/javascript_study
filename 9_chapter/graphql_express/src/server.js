@@ -9,7 +9,24 @@ const path = require("path");
 
 const loadedTypes = loadFilesSync("**/*", { extensions: ["graphql"] });
 
-const schema = makeExecutableSchema({ typeDefs: loadedTypes });
+const schema = makeExecutableSchema({
+  typeDefs: loadedTypes,
+  resolvers: {
+    Query: {
+      posts: (parent, args, context, info) => {
+        console.log("parent", parent);
+        console.log("args", args);
+        console.log("context", context);
+        console.log("info", info);
+
+        return parent.posts;
+      },
+      comments: (parent) => {
+        return parent.comments;
+      },
+    },
+  },
+});
 
 const root = {
   posts: require("./posts/posts.model"),
