@@ -1,4 +1,5 @@
 const express = require("express");
+const crypto = require("crypto");
 const path = require("path");
 
 const app = express();
@@ -11,7 +12,7 @@ const io = new Server(server);
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const { saveMessages } = require("./utils/messages.utils");
+const { saveMessages, fetchMessages } = require("./utils/messages.utils");
 
 const { MONGO_USERNAME, MONGO_PASSWORD } = process.env;
 
@@ -35,7 +36,7 @@ io.on("connection", async (socket) => {
 
   // 데이터베이스에서 메시지 가져오기
   socket.on("fetch-messages", ({ receiver }) => {
-    // fetchMessages(io, socket.id, receiver);
+    fetchMessages(io, socket.id, receiver);
   });
 
   // 유저가 방에서 나갔을 때
