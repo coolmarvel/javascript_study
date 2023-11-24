@@ -40,7 +40,8 @@ const createSession = async (username) => {
       loginContainer.classList.add("d-none");
       chatBody.classList.remove("d-none");
       userTitle.innerHTML = data.username;
-    });
+    })
+    .catch((err) => console.error(err));
 };
 
 const socketConnect = async (username, userID) => {
@@ -62,7 +63,7 @@ socket.on("users-data", ({ users }) => {
   }
   ul += `</table>`;
 
-  if (users.length < 0) {
+  if (users.length > 0) {
     userTable.innerHTML = ul;
     userTagline.innerHTML = "접속 중인 유저";
     userTagline.classList.remove("text-danger");
@@ -74,15 +75,15 @@ socket.on("users-data", ({ users }) => {
   }
 });
 
-const sessionUsername = localStorage.getItem("session-username");
-const sessionUserID = localStorage.getItem("session-userID");
+const sessUsername = localStorage.getItem("session-username");
+const sessUserID = localStorage.getItem("session-userID");
 
-if (sessionUsername && sessionUserID) {
-  socketConnect(sessionUsername, sessionUserID);
+if (sessUsername && sessUserID) {
+  socketConnect(sessUsername, sessUserID);
 
   loginContainer.classList.add("d-none");
   chatBody.classList.remove("d-none");
-  userTitle.innerHTML = sessionUsername;
+  userTitle.innerHTML = sessUsername;
 }
 
 const setActiveUser = (element, username, userID) => {
@@ -133,7 +134,7 @@ msgForm.addEventListener("submit", (e) => {
 const appendMessage = ({ message, time, background, position }) => {
   let div = document.createElement("div");
   div.classList.add("message", "bg-opacity-25", "m-2", "px-2", "py-1", background, position);
-  div.innerHTML = `<span class="msg-text">${message}></span> <span class="msg-time"> ${time}</span>`;
+  div.innerHTML = `<span class="msg-text">${message}</span> <span class="msg-time"> ${time}</span>`;
 
   messages.append(div);
   messages.scrollTo(0, messages.scrollHeight);

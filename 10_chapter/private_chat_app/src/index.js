@@ -22,6 +22,32 @@ mongoose
   .then(() => console.log("MongoDB Connect Success!"))
   .catch((err) => console.log(err));
 
+io.use((socket, next) => {
+  const username = socket.handshake.auth.username;
+  const userID = socket.handshake.auth.userID;
+
+  if (!username) return next(new Error("Invalid username"));
+
+  socket.username = username;
+  socket.id = userID;
+
+  next();
+});
+
+const publicDir = path.join(__dirname, "../public");
+
+app.use(express.json());
+app.use(express.static(publicDir));
+
+const randomId = () => crypto.randomBytes(8).toString("hex");
+
+app.post("/session", (req, res) => {
+  const { username } = req.body;
+  let data = { username, userID: randomId() };
+
+  res.send(data);
+});
+
 let users = [];
 io.on("connection", async (socket) => {
   let userData = { username: socket.username, userID: socket.id };
@@ -29,7 +55,7 @@ io.on("connection", async (socket) => {
   io.emit("users-data", { users });
 
   // 클라이언트에서 보내온 메시지 A -> Server -> B
-  socket.io("message-to-server", (payload) => {
+  socket.on("message-to-server", (payload) => {
     io.to(payload.to).emit("message-to-client", payload);
     saveMessages(payload);
   });
@@ -48,29 +74,6 @@ io.on("connection", async (socket) => {
     io.emit("user-away", socket.id);
   });
 });
-
-io.use((socket, next) => {
-  const username = socket.handshake.auth.username;
-  const userID = socket.handshake.auth.userID;
-
-  if (!username) return next(new Error("Invalid username"));
-});
-
-const publicDir = path.join(__dirname, "../public");
-
-app.use(express.json());
-app.use(express.static(publicDir));
-
-app.post("/session", (req, res) => {
-  const { username } = req.body;
-  let data = { username, userID: randomId() };
-
-  res.send(data);
-});
-
-const randomId = () => {
-  crypto.randomBytes(8).toString("hex");
-};
 
 server.listen(3000, () => {
   console.log(`Server is running on http://localhost:3000`);
