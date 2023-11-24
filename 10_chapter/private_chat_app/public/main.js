@@ -84,3 +84,66 @@ if (sessionUsername && sessionUserID) {
   chatBody.classList.remove("d-none");
   userTitle.innerHTML = sessionUsername;
 }
+
+const setActiveUser = (element, username, userID) => {
+  title.innerHTML = username;
+  title.setAttribute("userID", userID);
+
+  const lists = document.getElementsByClassName("socket-users");
+  for (let i = 0; i < lists.length; i++) {
+    lists[i].classList.remove("table-active");
+  }
+
+  element.classList.add("table-active");
+
+  // 사용자 선택 후 메시지 영역 표시
+  msgDiv.classList.remove("d-none");
+  messages.classList.remove("d-none");
+  messages.innerHTML = "";
+
+  socket.emit("fetch-messages", { receiver: userID });
+  const notify = document.getElementById(userID);
+  notify.classList.add("d-none");
+};
+
+const msgForm = document.querySelector(".msgForm");
+const message = document.getElementById("message");
+
+msgForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const to = title.getAttribute("userID");
+  const time = new Date().toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+
+  // make message payload
+  const payload = { from: socket.id, to, message: message.value, time };
+
+  socket.emit("message-to-server", payload);
+
+  appendMessage({ ...payload, background: "bg-success", position: "right" });
+
+  message.value = "";
+  message.focus();
+});
+
+const appendMessage = ({ message, time, background, position }) => {
+  let div = document.createElement("div");
+  div.classList.add("message", "bg-opacity-25", "m-2", "px-2", "py-1", background, position);
+  div.innerHTML = `<span class="msg-text">${message}></span> <span class="msg-time"> ${time}</span>`;
+
+  messages.append(div);
+  messages.scrollTo(0, messages.scrollHeight);
+};
+
+socket.on("message-to-client", ({ from, message, time }) => {
+  const receiver = title.getAttribute("userID");
+  const notify = document.getElementById(from);
+
+  if (receiver === null) notify.classList.remove("d-none");
+  else if (receiver === from) appendMessage({ message, time, background: "bg-secondary", position: "left" });
+  else notify.classList.remove("d-none");
+});
