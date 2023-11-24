@@ -23,7 +23,7 @@ mongoose
 let users = [];
 io.on("connection", async (socket) => {
   // get all users
-  let userData = {};
+  let userData = { username: socket.username, userID: socket.id };
   users.push(userData);
   io.emit("users-data", { users });
 
@@ -36,10 +36,28 @@ io.on("connection", async (socket) => {
   socket.on("disconnect", () => {});
 });
 
+io.use((socket, next) => {
+  const username = socket.handshake.auth.username;
+  const userID = socket.handshake.auth.userID;
+
+  if (!username) return next(new Error("Invalid username"));
+});
+
 const publicDir = path.join(__dirname, "../public");
 
 app.use(express.json());
 app.use(express.static(publicDir));
+
+app.post("/session", (req, res) => {
+  const { username } = req.body;
+  let data = { username, userID: randomId() };
+
+  res.send(data);
+});
+
+const randomId = () => {
+  crypto.randomBytes(8).toString("hex");
+};
 
 server.listen(3000, () => {
   console.log(`Server is running on http://localhost:3000`);
