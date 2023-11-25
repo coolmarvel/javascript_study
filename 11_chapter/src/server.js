@@ -49,12 +49,12 @@ app.use((err, req, res, next) => {
   res.send(err.message || "Error Occured");
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
-
 mongoose.set("strictQuery", false);
 mongoose
   .connect(MONGO_URI)
   .then(() => console.log("mongodb connected"))
   .catch((err) => console.log(err));
+
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
