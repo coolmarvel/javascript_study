@@ -1,0 +1,28 @@
+<div class="auth-wrapper">
+  <form action="/auth/signup" method="post">
+    <div class="text-center">
+      <h3 class="mb-3 font-weight-normal">회원가입</h3>
+    </div>
+
+    <div class="mb-3">
+      <label for="email">Email address</label>
+      <input type="email" name="email" id="email" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" class="form-contorl" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">가입하기</button>
+
+    <div class="text-end mt-2">
+      <a href="/login">로그인</a>
+    </div>
+  </form>
+</div>
