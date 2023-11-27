@@ -52,12 +52,16 @@ app.use((err, req, res, next) => {
 app.use("/", require("./routes/main.router"));
 app.use("/auth", require("./routes/users.router"));
 app.use("/posts", require("./routes/posts.router"));
+app.use("/friends", require("./routes/friends.router"));
+app.use("/profile/:id", require("./routes/profile.router"));
+app.use("/posts/:id/comments", require("./routes/comments.router"));
+app.use(require("./routes/likes.router"));
 
-// mongoose.set("strictQuery", false);
-// mongoose
-//   .connect(MONGO_URI)
-//   .then(() => console.log("mongodb connected"))
-//   .catch((err) => console.log(err));
+mongoose.set("strictQuery", false);
+mongoose
+  .connect(MONGO_URI)
+  .then(() => console.log("mongodb connected"))
+  .catch((err) => console.log(err));
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
