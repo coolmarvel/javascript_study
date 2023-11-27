@@ -54,6 +54,13 @@ router.put("/:id", checkPostOwnership, (req, res) => {
   });
 });
 
-router.delete("/:id", checkPostOwnership, (req, res) => {});
+router.delete("/:id", checkPostOwnership, (req, res) => {
+  PostModel.findByIdAndDelete(req.params.id, (err, _) => {
+    if (err) req.flash("error", "게시물을 지우는데 실패했습니다.");
+    else req.flash("success", "게시물을 지우는데 성공했습니다.");
+
+    res.redirect("/posts");
+  });
+});
 
 module.exports = router;
