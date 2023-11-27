@@ -38,9 +38,21 @@ router.post("/", checkAuthenticated, upload, (req, res, next) => {
   });
 });
 
-router.get("/:id/edit", checkPostOwnership, (req, res) => {});
+router.get("/:id/edit", checkPostOwnership, (req, res) => {
+  res.render("/posts/edit", { post: req.post });
+});
 
-router.put("/:id", checkPostOwnership, (req, res) => {});
+router.put("/:id", checkPostOwnership, (req, res) => {
+  PostModel.findByIdAndUpdate(req.params.id, req.body, (err, _) => {
+    if (err) {
+      req.flash("error", "게시물을 수정하는데 오류가 발생했습니다.");
+      res.redirect("/posts");
+    } else {
+      req.flash("success", "게시물 수정을 완료했습니다.");
+      res.redirect("posts");
+    }
+  });
+});
 
 router.delete("/:id", checkPostOwnership, (req, res) => {});
 
