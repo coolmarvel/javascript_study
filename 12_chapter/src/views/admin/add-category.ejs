@@ -1,17 +1,17 @@
 <%- include('../partials/header') %>
 
-    <div class="d-flex justify-content-between align-items-center">
-        <h2 class="page-title">카테고리 생성하기</h2>
-        <a href="/admin/categories" class="btn btn-primary">뒤로</a>
-    </div>
+<div class="d-flex justify-content-between align-items-center">
+  <h2 class="page-title">카테고리 생성하기</h2>
+  <a href="/admin/categories" class="btn btn-primary">뒤로</a>
+</div>
 
-    <form action="/admin/categories/add-category" method="post">
-        <div class="row mb-3">
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title" class="form-control" placeholder="Title">
-        </div>
-        <button type="submit" class="btn btn-primary">생성</button>
-    </form>
+<form action="/admin/categories/add-category" method="post">
+  <div class="row mb-3">
+    <label for="title">Title</label>
+    <input type="text" name="title" id="title" class="form-control" placeholder="Title">
+  </div>
+  <button type="submit" class="btn btn-primary">생성</button>
+</form>
 
 
-    <%- include('../partials/footer') %>
+<%- include('../partials/footer') %>
