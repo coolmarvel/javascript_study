@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
-const { checkAdmin } = require("../../middleware/auth");
-const { Category } = require("../../models/categories.model");
+const { checkAdmin } = require("../../../middleware/auth");
+const { Category } = require("../../../models/categories.model");
 
 router.get("/add-category", checkAdmin, (req, res) => {
   res.render("admin/add-category");

@@ -58,15 +58,16 @@ app.use((err, req, res, next) => {
   res.send(err.message || "에러가 발생했습니다.");
 });
 
-// Routes in here
-app.use("/", require("./routes/main.router"));
-
 app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success");
   res.locals.currentUser = req.user;
   next();
+  ``;
 });
+
+// Routes in here
+app.use("/", require("./routes"));
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
