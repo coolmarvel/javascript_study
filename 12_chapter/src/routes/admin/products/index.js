@@ -59,4 +59,21 @@ router.post("/", checkAdmin, async (req, res, next) => {
   }
 });
 
+router.delete("/:id", checkAdmin, async (req, res, next) => {
+  const { id } = req.params;
+  const path = "src/public/product-images/" + id;
+
+  try {
+    await fs.remove(path);
+
+    await Product.findByIdAndRemove(id);
+
+    req.flash("success", "상품이 삭제되었습니다.");
+    res.redirect("back");
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 module.exports = router;
