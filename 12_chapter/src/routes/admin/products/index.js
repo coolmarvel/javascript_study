@@ -101,4 +101,41 @@ router.get("/:id/edit", checkAdmin, async (req, res, next) => {
   }
 });
 
+router.post("/product-gallery/:id", async (req, res, next) => {
+  const productImage = req.files.file;
+  const id = req.params.id;
+  const path = "src/public/product-images/" + id + "/gallery/" + req.files.file.name;
+  const thumbsPath = "src/public/product-images/" + id + "/gallery/thumbs/" + req.files.file.name;
+
+  try {
+    // 원본 이미지를 gallery 폴더에 넣어주기
+    await productImage.mv(path);
+
+    // 이미지를 리사이즈
+    const buff = await Resizeimg(fs.readFileSync(path), { width: 100, height: 100 });
+    fs.writeFileSync(thumbsPath, buff);
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.delete("/:id/image/:imageId", checkAdmin, async (req, res, next) => {
+  const originalImage = `src/public/product-images/${req.params.id}/gallery/${req.params.imageId}`;
+  const thumbImage = `src/public/product-images/${req.params.id}/gallery/thumbs/${req.params.imageId}`;
+
+  try {
+    await fs.remove(originalImage);
+    await fs.remove(thumbImage);
+
+    req.flash("success", "이미지가 삭제되었습니다.");
+    res.redirect("/admin/products/" + req.params.id + "/edit");
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 module.exports = router;
