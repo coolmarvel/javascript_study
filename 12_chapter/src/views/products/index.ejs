@@ -1,0 +1,36 @@
+<%- include('../partials/header') %>
+<div class="row">
+  <div class="col-xs-12 col-md-3">
+    <ul class="list-group">
+      <li class="list-group-item"><a href="/products">모든 상품 보기</a></li>
+      <% categories.forEach((c) => { %>
+      <li class="list-group-item"><a href="/products/<%= c.slug %>"><%= c.title %></a></li>
+      <% }); %>
+    </ul>
+  </div>
+
+  <div class="col-xs-12 col-md-1"></div>
+  <div class="col-xs-12 col-md-8">
+    <div class="row row-clos-1 row-clos-sm-2 row-cols-md-3 g-3">
+      <% products.forEach((p)=>{ %>
+      <div class="col">
+        <div class="card shadow-sm">
+          <a href="/products/<%= p.category %>/<%= p.slug %>" class="bd-placeholder-img card-img-top">
+            <img src="/procuts-images/<%= p.id %>/<%= p.image %>" alt="" style="width: 100%;">
+          </a>
+          <div class="card-body">
+            <p class="card-text"><%= p.title %></p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <a href="/products/<%= p.category %>/<%= p.slug %>" class="btn btn-sm btn-outline-secondary">보기</a>
+              </div>
+              <small class="text-muted">₩<%= p.price %></small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</div>
+<%- include('../partials/footer') %>
