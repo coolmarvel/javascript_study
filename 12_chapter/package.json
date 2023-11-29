@@ -22,10 +22,11 @@
     "fs-extra": "^11.1.1",
     "method-override": "^3.0.0",
     "mkdirp": "^3.0.1",
-    "mongoose": "^8.0.1",
+    "mongoose": "6.9.2",
     "nodemailer": "^6.9.7",
     "nodemon": "^3.0.1",
     "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "resize-img": "^2.0.0"
   }
