@@ -18,22 +18,22 @@ const port = server_config.port;
 
 const { COOKIE_ENCRYPTION_KEY, MONGO_URI } = process.env;
 
-// app.use(
-//   session({
-//     secret: "session_secret",
-//     name: "shop-app-cookie",
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: { httpOnly: true, secure: false },
-//   })
-// );
-app.use(cookieParser());
 app.use(
-  cookieSession({
-    name: "cookie-session",
-    keys: [COOKIE_ENCRYPTION_KEY],
+  session({
+    secret: "session_secret",
+    name: "shop-app-cookie",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { httpOnly: true, secure: false },
   })
 );
+app.use(cookieParser());
+// app.use(
+//   cookieSession({
+//     name: "cookie-session",
+//     keys: [COOKIE_ENCRYPTION_KEY],
+//   })
+// );
 app.use((req, res, next) => {
   if (req.session && !req.session.regenerate) req.session.regenerate = (cb) => cb();
   if (req.session && !req.session.save) req.session.save = (cb) => cb();
